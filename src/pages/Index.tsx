@@ -15,6 +15,7 @@ import {
 
 const Index = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const faqs = [
@@ -78,13 +79,13 @@ const Index = () => {
       
       const { error } = await supabase
         .from("users")
-        .insert({email: email});
+        .insert({name: name,email: email});
         // .insert([{ email }]);
 
       if (error) throw error;
 
       toast({
-        title: "Success!",
+        title: `Thanks for joining, ${name}!`,
         description: "You've been added to the waitlist.",
       });
       setEmail("");
@@ -121,6 +122,14 @@ const Index = () => {
 
           <div className="max-w-md mx-auto mt-8">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <Input
+                type="name"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="text-lg h-12 rounded-full p-5"
+              />
               <Input
                 type="email"
                 placeholder="Enter your email"
